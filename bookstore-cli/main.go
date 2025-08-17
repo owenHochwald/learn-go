@@ -1,10 +1,11 @@
 package main
 
 import (
+	"bookstore-cli/models"
 	"encoding/json"
 	"fmt"
 	"os"
-	"bookstore-cli/models"
+	"strconv"
 )
 
 const filePath = "books.json"
@@ -14,7 +15,11 @@ func main() {
 	// check file for errors
 	books := loadBooks()
 
-	fmt.Print(books)
+	fmt.Println(books)
+
+	getAllBooks(books)
+
+	getBook(1, books)
 
 	args := os.Args[1:]
 
@@ -53,5 +58,34 @@ func loadBooks() []models.Book {
 	}
 
 	return books
+}
 
+func getAllBooks(books []models.Book) {
+	fmt.Println("Id\t\tTitle\t\tAuthor\t\tImage URL")
+
+	// print all books to console
+	for _, book := range books {
+		printBook(book)
+	}
+	fmt.Println()
+
+}
+
+func getBook(id int, books []models.Book) {
+	for _, book := range books {
+		bookId, err := strconv.Atoi(book.Id)
+		if err != nil {
+			panic(err)
+		}
+
+		if bookId == id {
+			fmt.Println("Id\t\tTitle\t\tAuthor\t\tImage URL")
+			printBook(book)
+			fmt.Println()
+		}
+	}
+}
+
+func printBook(book models.Book) {
+	fmt.Printf("%s\t%s\t%s\t%s\n", book.Id, book.Title, book.Author, book.Image_url)
 }
