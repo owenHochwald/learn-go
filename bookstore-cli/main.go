@@ -59,3 +59,18 @@ func loadBooks() []models.Book {
 
 	return books
 }
+
+func writeBooks(books []models.Book) {
+	// get data and marshal into json
+	data, err := json.MarshalIndent(books, "", "  ")
+	if err != nil {
+		panic("Error marshalling books" + err.Error())
+	}
+	// write into books.json
+	err = os.WriteFile(filePath, data, 0666)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(("Saved books to books.json"))
+}
