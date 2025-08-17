@@ -4,14 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"bookstore-cli/models"
 )
-
-type Book struct {
-	Id        string `json:"id"`
-	Title     string `json:"title"`
-	Author    string `json:"author"`
-	Image_url string `json:"imageUrl"`
-}
 
 const filePath = "books.json"
 
@@ -36,14 +30,14 @@ func main() {
 
 }
 
-func loadBooks() []Book {
+func loadBooks() []models.Book {
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		// create the file
 		err := os.WriteFile(filePath, []byte("[]"), 0644)
 		if err != nil {
 			panic(err)
 		}
-		return []Book{}
+		return []models.Book{}
 	}
 
 	// open file and read contents to memory in data
@@ -53,7 +47,7 @@ func loadBooks() []Book {
 	}
 
 	// load books from file into books var
-	var books []Book
+	var books []models.Book
 	if err := json.Unmarshal(data, &books); err != nil {
 		panic(err)
 	}
