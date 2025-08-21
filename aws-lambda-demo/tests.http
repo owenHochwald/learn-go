@@ -1,0 +1,25 @@
+GET https://d8qxcf3ps0.execute-api.us-east-1.amazonaws.com/hello-world-lambda
+
+###
+GET https://d8qxcf3ps0.execute-api.us-east-1.amazonaws.com/
+
+###
+
+POST https://d8qxcf3ps0.execute-api.us-east-1.amazonaws.com/hello-world-lambda
+Content-Type: application/json
+
+{
+  "Title" : "Lord of the Rings",
+  "Author" : "JRR Tolkien"
+}
+
+###
+GET https://d8qxcf3ps0.execute-api.us-east-1.amazonaws.com/hello
+
+###
+POST https://d8qxcf3ps0.execute-api.us-east-1.amazonaws.com/person
+
+{
+  "FirstName" : "Lord of the Rings",
+  "LastName" : "JRR Tolkien"
+}
