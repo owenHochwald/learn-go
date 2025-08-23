@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type config struct {
@@ -28,23 +28,15 @@ func main() {
 	flag.Parse()
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
+
 	app := application{
 		config: cfg,
 		logger: logger,
 	}
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/v1/healthcheck", app.healthCheckHandler)
+	r := gin.Default()
 
-	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", app.config.port),
-		Handler:      mux,
-		IdleTimeout:  time.Minute,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-	}
+	SetupRoutes(r, &app)
 
-	logger.Printf("Starting server on port %d", app.config.port)
-	log.Fatal(server.ListenAndServe())
-
+	r.Run(fmt.Sprintf(":%d", cfg.port))
 }

@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func (app *application) healthCheckHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "status available\n")
-	fmt.Fprintf(w, "port %d\n", app.config.port)
-	fmt.Fprintf(w, "version %s\n", version)
-	w.WriteHeader(http.StatusOK)
+func (app *application) healthCheckHandler(c *gin.Context) {
+	fmt.Fprint(c.Writer, "version %s", version)
+	fmt.Fprint(c.Writer, "port %d", app.config.port)
+	c.Writer.WriteHeader(200)
 }
